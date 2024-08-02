@@ -47,13 +47,16 @@ message LocalTrajectoryBuilderOptions2D {
 
   // Voxel filter used to compute a sparser point cloud for finding loop
   // closures.
-  sensor.proto.AdaptiveVoxelFilterOptions loop_closure_adaptive_voxel_filter_options = 20;
+  sensor.proto.AdaptiveVoxelFilterOptions
+      loop_closure_adaptive_voxel_filter_options = 20;
 
   // Whether to solve the online scan matching first using the correlative scan
   // matcher to generate a good starting point for Ceres.
   bool use_online_correlative_scan_matching = 5;
-  cartographer.mapping.scan_matching.proto.RealTimeCorrelativeScanMatcherOptions real_time_correlative_scan_matcher_options = 7;
-  cartographer.mapping.scan_matching.proto.CeresScanMatcherOptions2D ceres_scan_matcher_options = 8;
+  cartographer.mapping.scan_matching.proto.RealTimeCorrelativeScanMatcherOptions
+      real_time_correlative_scan_matcher_options = 7;
+  cartographer.mapping.scan_matching.proto.CeresScanMatcherOptions2D
+      ceres_scan_matcher_options = 8;
   MotionFilterOptions motion_filter_options = 13;
 
   // Time constant in seconds for the orientation moving average based on

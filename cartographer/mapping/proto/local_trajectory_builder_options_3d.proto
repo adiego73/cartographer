@@ -40,14 +40,18 @@ message LocalTrajectoryBuilderOptions3D {
   float voxel_filter_size = 4;
 
   // Voxel filter used to compute a sparser point cloud for matching.
-  sensor.proto.AdaptiveVoxelFilterOptions high_resolution_adaptive_voxel_filter_options = 5;
-  sensor.proto.AdaptiveVoxelFilterOptions low_resolution_adaptive_voxel_filter_options = 12;
+  sensor.proto.AdaptiveVoxelFilterOptions
+      high_resolution_adaptive_voxel_filter_options = 5;
+  sensor.proto.AdaptiveVoxelFilterOptions
+      low_resolution_adaptive_voxel_filter_options = 12;
 
   // Whether to solve the online scan matching first using the correlative scan
   // matcher to generate a good starting point for Ceres.
   bool use_online_correlative_scan_matching = 13;
-  mapping.scan_matching.proto.RealTimeCorrelativeScanMatcherOptions real_time_correlative_scan_matcher_options = 14;
-  mapping.scan_matching.proto.CeresScanMatcherOptions3D ceres_scan_matcher_options = 6;
+  mapping.scan_matching.proto.RealTimeCorrelativeScanMatcherOptions
+      real_time_correlative_scan_matcher_options = 14;
+  mapping.scan_matching.proto.CeresScanMatcherOptions3D
+      ceres_scan_matcher_options = 6;
   mapping.proto.MotionFilterOptions motion_filter_options = 7;
 
   // Time constant in seconds for the orientation moving average based on

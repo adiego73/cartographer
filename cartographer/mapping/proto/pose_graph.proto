@@ -21,12 +21,12 @@ import "cartographer/transform/proto/transform.proto";
 
 message SubmapId {
   int32 trajectory_id = 1;
-  int32 submap_index = 2; // Submap index in the given trajectory.
+  int32 submap_index = 2;  // Submap index in the given trajectory.
 }
 
 message NodeId {
   int32 trajectory_id = 1;
-  int32 node_index = 2; // Node index in the given trajectory.
+  int32 node_index = 2;  // Node index in the given trajectory.
 }
 
 message PoseGraph {
@@ -39,8 +39,8 @@ message PoseGraph {
       INTER_SUBMAP = 1;
     }
 
-    SubmapId submap_id = 1; // Submap ID.
-    NodeId node_id = 2; // Node ID.
+    SubmapId submap_id = 1;  // Submap ID.
+    NodeId node_id = 2;      // Node ID.
     // Pose of the node relative to submap, i.e. taking data from the node frame
     // into the submap frame.
     transform.proto.Rigid3d relative_pose = 3;
