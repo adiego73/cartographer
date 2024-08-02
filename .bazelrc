@@ -20,4 +20,3 @@ build -c opt
 # with and without -fPIC. --force_pic avoids the unnecessary actions and
 # reduces build time.
 build --force_pic
-

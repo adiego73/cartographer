@@ -14,10 +14,10 @@
 
 syntax = "proto3";
 
+package cartographer.mapping.proto;
+
 import "cartographer/mapping/proto/grid_2d_options.proto";
 import "cartographer/mapping/proto/range_data_inserter_options.proto";
-
-package cartographer.mapping.proto;
 
 message SubmapsOptions2D {
   // Number of range data before adding a new submap. Each submap will get twice

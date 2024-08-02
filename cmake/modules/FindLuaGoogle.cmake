@@ -216,5 +216,3 @@ mark_as_advanced(LUA_INCLUDE_DIR LUA_LIBRARY LUA_MATH_LIBRARY)
 if (NOT LUA_FOUND)
   MESSAGE(FATAL_ERROR "Did not find Lua >= 5.2.")
 endif ()
-
-

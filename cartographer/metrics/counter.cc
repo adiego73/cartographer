@@ -24,8 +24,8 @@ namespace {
 // Implementation of counter that does nothing.
 class NullCounter : public Counter {
  public:
-  void Increment() override{};
-  void Increment(double) override{};
+  void Increment() override {};
+  void Increment(double) override {};
 };
 
 }  // namespace

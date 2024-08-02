@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,10 +36,8 @@ function(google_test NAME ARG_SRC)
   add_executable(${NAME} ${ARG_SRC})
   _common_compile_stuff()
 
-  # Make sure that gmock always includes the correct gtest/gtest.h.
-  target_include_directories("${NAME}" SYSTEM PRIVATE
-    "${GMOCK_INCLUDE_DIRS}")
   target_link_libraries("${NAME}" PUBLIC ${GMOCK_LIBRARIES})
+  target_link_libraries("${NAME}" PUBLIC GTest::GTest GTest::Main GTest::gmock)
 
   add_test(${NAME} ${NAME})
 endfunction()
@@ -57,7 +55,7 @@ endfunction()
 # Create a variable 'VAR_NAME'='FLAG'. If VAR_NAME is already set, FLAG is
 # appended.
 function(google_add_flag VAR_NAME FLAG)
-  if (${VAR_NAME})
+  if(${VAR_NAME})
     set(${VAR_NAME} "${${VAR_NAME}} ${FLAG}" PARENT_SCOPE)
   else()
     set(${VAR_NAME} "${FLAG}" PARENT_SCOPE)
@@ -67,14 +65,14 @@ endfunction()
 macro(google_initialize_cartographer_project)
   if(CARTOGRAPHER_CMAKE_DIR)
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-        ${CARTOGRAPHER_CMAKE_DIR}/modules)
+      ${CARTOGRAPHER_CMAKE_DIR}/modules)
   else()
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
   endif()
 
   if(WIN32)
-    # TODO turn on equivalent warnings on Windows
+  # TODO turn on equivalent warnings on Windows
   else()
     set(GOOG_CXX_FLAGS "-pthread -fPIC ${GOOG_CXX_FLAGS}")
 
@@ -89,7 +87,7 @@ macro(google_initialize_cartographer_project)
     google_add_flag(GOOG_CXX_FLAGS "-Werror=switch")
     google_add_flag(GOOG_CXX_FLAGS "-Werror=uninitialized")
 
-    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
       google_add_flag(GOOG_CXX_FLAGS "-Wthread-safety")
     endif()
 
@@ -112,10 +110,11 @@ macro(google_initialize_cartographer_project)
           "call CMake with -DFORCE_DEBUG_BUILD=True"
         )
       endif()
+
     # Support for Debian packaging CMAKE_BUILD_TYPE
     elseif(CMAKE_BUILD_TYPE STREQUAL "None")
       message(WARNING "Building with CMAKE_BUILD_TYPE None, "
-          "please make sure you have set CFLAGS and CXXFLAGS according to your needs.")
+        "please make sure you have set CFLAGS and CXXFLAGS according to your needs.")
     else()
       message(FATAL_ERROR "Unknown CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
     endif()
@@ -130,14 +129,16 @@ macro(google_initialize_cartographer_project)
       COMMAND ${DETECT_CHANGES_CMD}
       VERBATIM
     )
+
     if(NOT EXISTS ${FILES_LIST_PATH})
       execute_process(COMMAND ${DETECT_CHANGES_CMD})
     endif()
+
     include(${FILES_LIST_PATH})
   endif()
 endmacro()
 
 macro(google_enable_testing)
   enable_testing()
-  find_package(GMock REQUIRED)
+  find_package(GTest REQUIRED)
 endmacro()

@@ -67,7 +67,7 @@ class MockCellProperties {
   MockCellProperties(const Eigen::Array2i& cell_index, const TSDF2D& tsdf)
       : is_known_(tsdf.IsKnown(cell_index)),
         tsd_(tsdf.GetTSD(cell_index)),
-        weight_(tsdf.GetWeight(cell_index)){};
+        weight_(tsdf.GetWeight(cell_index)) {};
 
   bool is_known_;
   float tsd_;

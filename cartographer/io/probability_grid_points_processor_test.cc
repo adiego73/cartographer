@@ -100,20 +100,20 @@ std::unique_ptr<common::LuaParameterDictionary> CreateParameterDictionary() {
   auto parameter_dictionary =
       cartographer::common::LuaParameterDictionary::NonReferenceCounted(
           R"text(
-          pipeline = { 
-            { 
-              action = "write_probability_grid", 
-              resolution = 0.05, 
-              range_data_inserter = { 
-                insert_free_space = true, 
-                hit_probability = 0.55, 
-                miss_probability = 0.49, 
-              }, 
-              draw_trajectories = false, 
-              output_type = "pb", 
-              filename = "map" 
+          pipeline = {
+            {
+              action = "write_probability_grid",
+              resolution = 0.05,
+              range_data_inserter = {
+                insert_free_space = true,
+                hit_probability = 0.55,
+                miss_probability = 0.49,
+              },
+              draw_trajectories = false,
+              output_type = "pb",
+              filename = "map"
             }
-          } 
+          }
           return pipeline
     )text",
           absl::make_unique<cartographer::common::DummyFileResolver>());

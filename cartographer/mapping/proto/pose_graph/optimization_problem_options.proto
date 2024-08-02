@@ -53,10 +53,11 @@ message OptimizationProblemOptions {
   double fixed_frame_pose_rotation_weight = 12;
 
   bool fixed_frame_pose_use_tolerant_loss = 23;
-  // The following parameters are used only if fixed_frame_pose_use_tolerant_loss is true.
-  // See http://ceres-solver.org/nnls_modeling.html.
-  // For large values of s, the tolerant loss function approaches a null loss
-  // with fixed_frame_pose_translation_weight.
+  // The following parameters are used only if
+  // fixed_frame_pose_use_tolerant_loss is true. See
+  // http://ceres-solver.org/nnls_modeling.html. For large values of s, the
+  // tolerant loss function approaches a null loss with
+  // fixed_frame_pose_translation_weight.
   double fixed_frame_pose_tolerant_loss_param_a = 24;
   double fixed_frame_pose_tolerant_loss_param_b = 25;
 

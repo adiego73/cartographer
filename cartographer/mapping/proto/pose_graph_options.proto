@@ -25,8 +25,7 @@ message PoseGraphOptions {
   int32 optimize_every_n_nodes = 1;
 
   // Options for the constraint builder.
-  mapping.constraints.proto.ConstraintBuilderOptions
-      constraint_builder_options = 3;
+  mapping.constraints.proto.ConstraintBuilderOptions constraint_builder_options = 3;
 
   // Weight used in the optimization problem for the translational component of
   // non-loop-closure scan matcher constraints.
@@ -37,8 +36,7 @@ message PoseGraphOptions {
   double matcher_rotation_weight = 8;
 
   // Options for the optimization problem.
-  mapping.optimization.proto.OptimizationProblemOptions
-      optimization_problem_options = 4;
+  mapping.optimization.proto.OptimizationProblemOptions optimization_problem_options = 4;
 
   // Number of iterations to use in 'optimization_problem_options' for the final
   // optimization.

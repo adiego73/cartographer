@@ -17,6 +17,8 @@
 #ifndef CARTOGRAPHER_MAPPING_INTERNAL_OPTIMIZATION_CERES_POSE_H_
 #define CARTOGRAPHER_MAPPING_INTERNAL_OPTIMIZATION_CERES_POSE_H_
 
+#include <ceres/manifold.h>
+
 #include <array>
 #include <memory>
 
@@ -30,11 +32,10 @@ namespace optimization {
 
 class CeresPose {
  public:
-  CeresPose(
-      const transform::Rigid3d& rigid,
-      std::unique_ptr<ceres::LocalParameterization> translation_parametrization,
-      std::unique_ptr<ceres::LocalParameterization> rotation_parametrization,
-      ceres::Problem* problem);
+  CeresPose(const transform::Rigid3d& rigid,
+            std::unique_ptr<ceres::Manifold> translation_parametrization,
+            std::unique_ptr<ceres::Manifold> rotation_parametrization,
+            ceres::Problem* problem);
 
   const transform::Rigid3d ToRigid() const;
 

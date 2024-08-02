@@ -101,7 +101,7 @@ which a landmark with the global pose :math:`\mathbf{p}_l` is observed.
 The landmark observation itself is the measured transformation
 :math:`\mathbf{T}^m_{ol}` that was observed at time :math:`t_o`.
 
-As the landmark can be observed asynchronously, the pose of observation 
+As the landmark can be observed asynchronously, the pose of observation
 :math:`\mathbf{p}_o` is modeled in between two regular, consecutive trajectory
 nodes :math:`\mathbf{p}_i, \mathbf{p}_j`.
 It is interpolated between :math:`\mathbf{p}_i` and
@@ -115,9 +115,9 @@ Then, the full weighted landmark cost function can be written as:
 
 .. math::
   \begin{align}
-    \mathbf f_{\text{landmark}}(\mathbf{p}_l, \mathbf{p}_i, \mathbf{p}_j) &= 
-      \mathbf f_{\text{relative}}(\mathbf{p}_l, \mathbf{p}_o) \\ 
-    &= 
+    \mathbf f_{\text{landmark}}(\mathbf{p}_l, \mathbf{p}_i, \mathbf{p}_j) &=
+      \mathbf f_{\text{relative}}(\mathbf{p}_l, \mathbf{p}_o) \\
+    &=
     \left[
       w_{\text{t}} \; w_{\text{r}}
     \right]

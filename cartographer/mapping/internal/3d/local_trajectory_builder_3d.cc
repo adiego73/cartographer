@@ -88,12 +88,13 @@ std::unique_ptr<transform::Rigid3d> LocalTrajectoryBuilder3D::ScanMatch(
           : nullptr;
   ceres_scan_matcher_->Match(
       (matching_submap->local_pose().inverse() * pose_prediction).translation(),
-      initial_ceres_pose, {{&high_resolution_point_cloud_in_tracking,
-                            &matching_submap->high_resolution_hybrid_grid(),
-                            high_resolution_intensity_hybrid_grid},
-                           {&low_resolution_point_cloud_in_tracking,
-                            &matching_submap->low_resolution_hybrid_grid(),
-                            /*intensity_hybrid_grid=*/nullptr}},
+      initial_ceres_pose,
+      {{&high_resolution_point_cloud_in_tracking,
+        &matching_submap->high_resolution_hybrid_grid(),
+        high_resolution_intensity_hybrid_grid},
+       {&low_resolution_point_cloud_in_tracking,
+        &matching_submap->low_resolution_hybrid_grid(),
+        /*intensity_hybrid_grid=*/nullptr}},
       &pose_observation_in_submap, &summary);
   kCeresScanMatcherCostMetric->Observe(summary.final_cost);
   const double residual_distance = (pose_observation_in_submap.translation() -

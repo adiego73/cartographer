@@ -16,6 +16,8 @@
 
 #include "cartographer/common/task.h"
 
+#include "thread_pool.h"
+
 namespace cartographer {
 namespace common {
 

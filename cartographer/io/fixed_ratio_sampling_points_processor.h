@@ -39,7 +39,7 @@ class FixedRatioSamplingPointsProcessor : public PointsProcessor {
   static std::unique_ptr<FixedRatioSamplingPointsProcessor> FromDictionary(
       common::LuaParameterDictionary* dictionary, PointsProcessor* next);
 
-  ~FixedRatioSamplingPointsProcessor() override{};
+  ~FixedRatioSamplingPointsProcessor() override {};
 
   FixedRatioSamplingPointsProcessor(const FixedRatioSamplingPointsProcessor&) =
       delete;

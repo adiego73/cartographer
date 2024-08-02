@@ -14,6 +14,8 @@
 
 syntax = "proto3";
 
+package cartographer.cloud.proto;
+
 import "cartographer/mapping/proto/pose_graph.proto";
 import "cartographer/mapping/proto/serialization.proto";
 import "cartographer/mapping/proto/submap_visualization.proto";
@@ -21,8 +23,6 @@ import "cartographer/mapping/proto/trajectory_builder_options.proto";
 import "cartographer/sensor/proto/sensor.proto";
 import "cartographer/transform/proto/transform.proto";
 import "google/protobuf/empty.proto";
-
-package cartographer.cloud.proto;
 
 enum SensorType {
   RANGE = 0;
@@ -47,8 +47,7 @@ message SensorId {
 
 message AddTrajectoryRequest {
   repeated SensorId expected_sensor_ids = 3;
-  cartographer.mapping.proto.TrajectoryBuilderOptions
-      trajectory_builder_options = 2;
+  cartographer.mapping.proto.TrajectoryBuilderOptions trajectory_builder_options = 2;
   string client_id = 4;
 }
 
@@ -130,10 +129,8 @@ message ReceiveLocalSlamResultsResponse {
 }
 
 message ReceiveGlobalSlamOptimizationsResponse {
-  map<int32 /* trajectory_id */, cartographer.mapping.proto.NodeId>
-      last_optimized_node_ids = 1;
-  map<int32 /* trajectory_id */, cartographer.mapping.proto.SubmapId>
-      last_optimized_submap_ids = 2;
+  map<int32 /* trajectory_id */, cartographer.mapping.proto.NodeId> last_optimized_node_ids = 1;
+  map<int32 /* trajectory_id */, cartographer.mapping.proto.SubmapId> last_optimized_submap_ids = 2;
 }
 
 message GetSubmapRequest {
@@ -150,8 +147,7 @@ message LoadStateRequest {
 }
 
 message TrajectoryRemapping {
-  map<int32 /* serialized trajectory id */, int32 /* trajectory id */>
-      serialized_trajectories_to_trajectories = 1;
+  map<int32 /* serialized trajectory id */, int32 /* trajectory id */> serialized_trajectories_to_trajectories = 1;
 }
 
 message LoadStateResponse {
@@ -257,37 +253,30 @@ service MapBuilderService {
   rpc AddTrajectory(AddTrajectoryRequest) returns (AddTrajectoryResponse);
 
   // Adds a batch of sensor data  to a trajectory.
-  rpc AddSensorDataBatch(AddSensorDataBatchRequest)
-      returns (google.protobuf.Empty);
+  rpc AddSensorDataBatch(AddSensorDataBatchRequest) returns (google.protobuf.Empty);
 
   // Adds odometry data from the sensor with id 'sensor_metadata.sensor_id' to
   // the trajectory corresponding to 'sensor_metadata.trajectory_id'.
-  rpc AddOdometryData(stream AddOdometryDataRequest)
-      returns (google.protobuf.Empty);
+  rpc AddOdometryData(stream AddOdometryDataRequest) returns (google.protobuf.Empty);
 
   // Same for IMU data.
   rpc AddImuData(stream AddImuDataRequest) returns (google.protobuf.Empty);
 
   // Same for range-finder data.
-  rpc AddRangefinderData(stream AddRangefinderDataRequest)
-      returns (google.protobuf.Empty);
+  rpc AddRangefinderData(stream AddRangefinderDataRequest) returns (google.protobuf.Empty);
 
   // Same for fixed-frame pose data.
-  rpc AddFixedFramePoseData(stream AddFixedFramePoseDataRequest)
-      returns (google.protobuf.Empty);
+  rpc AddFixedFramePoseData(stream AddFixedFramePoseDataRequest) returns (google.protobuf.Empty);
 
   // Same for landmark data.
-  rpc AddLandmarkData(stream AddLandmarkDataRequest)
-      returns (google.protobuf.Empty);
+  rpc AddLandmarkData(stream AddLandmarkDataRequest) returns (google.protobuf.Empty);
 
   // Requests the server to send a stream of local SLAM results for the given
   // 'trajectory_id'.
-  rpc ReceiveLocalSlamResults(ReceiveLocalSlamResultsRequest)
-      returns (stream ReceiveLocalSlamResultsResponse);
+  rpc ReceiveLocalSlamResults(ReceiveLocalSlamResultsRequest) returns (stream ReceiveLocalSlamResultsResponse);
 
   // Requests the server to send a stream of global SLAM notifications.
-  rpc ReceiveGlobalSlamOptimizations(google.protobuf.Empty)
-      returns (stream ReceiveGlobalSlamOptimizationsResponse);
+  rpc ReceiveGlobalSlamOptimizations(google.protobuf.Empty) returns (stream ReceiveGlobalSlamOptimizationsResponse);
 
   // Marks a trajectory corresponding to 'trajectory_id' as finished,
   // i.e. no further sensor data is expected.
@@ -300,24 +289,19 @@ service MapBuilderService {
   rpc GetSubmap(GetSubmapRequest) returns (GetSubmapResponse);
 
   // Returns the current optimized trajectory poses.
-  rpc GetTrajectoryNodePoses(google.protobuf.Empty)
-      returns (GetTrajectoryNodePosesResponse);
+  rpc GetTrajectoryNodePoses(google.protobuf.Empty) returns (GetTrajectoryNodePosesResponse);
 
   // Returns the states of trajectories.
-  rpc GetTrajectoryStates(google.protobuf.Empty)
-      returns (GetTrajectoryStatesResponse);
+  rpc GetTrajectoryStates(google.protobuf.Empty) returns (GetTrajectoryStatesResponse);
 
   // Returns the current optimized landmark poses.
-  rpc GetLandmarkPoses(google.protobuf.Empty)
-      returns (GetLandmarkPosesResponse);
+  rpc GetLandmarkPoses(google.protobuf.Empty) returns (GetLandmarkPosesResponse);
 
   // Returns the current optimized submap poses.
-  rpc GetAllSubmapPoses(google.protobuf.Empty)
-      returns (GetAllSubmapPosesResponse);
+  rpc GetAllSubmapPoses(google.protobuf.Empty) returns (GetAllSubmapPosesResponse);
 
   // Returns the current local-to-global transform for the trajectory.
-  rpc GetLocalToGlobalTransform(GetLocalToGlobalTransformRequest)
-      returns (GetLocalToGlobalTransformResponse);
+  rpc GetLocalToGlobalTransform(GetLocalToGlobalTransformRequest) returns (GetLocalToGlobalTransformResponse);
 
   // Returns the list of constraints in the current optimization problem.
   rpc GetConstraints(google.protobuf.Empty) returns (GetConstraintsResponse);
@@ -326,29 +310,24 @@ service MapBuilderService {
   rpc SetLandmarkPose(SetLandmarkPoseRequest) returns (google.protobuf.Empty);
 
   // Checks whether the trajectory is finished.
-  rpc IsTrajectoryFinished(IsTrajectoryFinishedRequest)
-      returns (IsTrajectoryFinishedResponse);
+  rpc IsTrajectoryFinished(IsTrajectoryFinishedRequest) returns (IsTrajectoryFinishedResponse);
 
   // Checks whether the trajectory is frozen.
-  rpc IsTrajectoryFrozen(IsTrajectoryFrozenRequest)
-      returns (IsTrajectoryFrozenResponse);
+  rpc IsTrajectoryFrozen(IsTrajectoryFrozenRequest) returns (IsTrajectoryFrozenResponse);
 
   // Requests a PoseGraph to call RunFinalOptimization.
-  rpc RunFinalOptimization(google.protobuf.Empty)
-      returns (google.protobuf.Empty);
+  rpc RunFinalOptimization(google.protobuf.Empty) returns (google.protobuf.Empty);
 
   // Adds serialized SLAM state data in the order defined by ProtoStreamReader.
   rpc LoadState(stream LoadStateRequest) returns (LoadStateResponse);
 
   // Loads a serialized SLAM state data from the host file system.
-  rpc LoadStateFromFile(LoadStateFromFileRequest)
-      returns (LoadStateFromFileResponse);
+  rpc LoadStateFromFile(LoadStateFromFileRequest) returns (LoadStateFromFileResponse);
 
   // Receives serialized SLAM state data in the order defined by
   // ProtoStreamWriter.
   rpc WriteState(google.protobuf.Empty) returns (stream WriteStateResponse);
 
   // Writes the serialized SLAM state to the host file system.
-  rpc WriteStateToFile(WriteStateToFileRequest)
-      returns (WriteStateToFileResponse);
+  rpc WriteStateToFile(WriteStateToFileRequest) returns (WriteStateToFileResponse);
 }

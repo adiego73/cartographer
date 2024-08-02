@@ -16,9 +16,9 @@ syntax = "proto3";
 
 package cartographer.sensor.proto;
 
-option java_outer_classname = "Sensor";
-
 import "cartographer/transform/proto/transform.proto";
+
+option java_outer_classname = "Sensor";
 
 message RangefinderPoint {
   transform.proto.Vector3f position = 1;

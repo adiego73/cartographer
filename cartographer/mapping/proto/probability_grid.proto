@@ -16,5 +16,4 @@ syntax = "proto3";
 
 package cartographer.mapping.proto;
 
-message ProbabilityGrid {
-}
+message ProbabilityGrid {}

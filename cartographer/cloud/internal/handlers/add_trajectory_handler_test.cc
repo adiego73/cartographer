@@ -85,9 +85,9 @@ class AddTrajectoryHandlerTest
 
  protected:
   std::set<mapping::TrajectoryBuilderInterface::SensorId> ParseSensorIds(
-      const proto::AddTrajectoryRequest &request) {
+      const proto::AddTrajectoryRequest& request) {
     std::set<mapping::TrajectoryBuilderInterface::SensorId> expected_sensor_ids;
-    for (const auto &sensor_id : request.expected_sensor_ids()) {
+    for (const auto& sensor_id : request.expected_sensor_ids()) {
       expected_sensor_ids.insert(cloud::FromProto(sensor_id));
     }
     return expected_sensor_ids;

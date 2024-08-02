@@ -45,9 +45,11 @@ proto::OptimizationProblemOptions CreateOptimizationProblemOptions(
   options.set_fixed_frame_pose_use_tolerant_loss(
       parameter_dictionary->GetBool("fixed_frame_pose_use_tolerant_loss"));
   options.set_fixed_frame_pose_tolerant_loss_param_a(
-      parameter_dictionary->GetDouble("fixed_frame_pose_tolerant_loss_param_a"));
+      parameter_dictionary->GetDouble(
+          "fixed_frame_pose_tolerant_loss_param_a"));
   options.set_fixed_frame_pose_tolerant_loss_param_b(
-      parameter_dictionary->GetDouble("fixed_frame_pose_tolerant_loss_param_b"));
+      parameter_dictionary->GetDouble(
+          "fixed_frame_pose_tolerant_loss_param_b"));
   options.set_log_solver_summary(
       parameter_dictionary->GetBool("log_solver_summary"));
   options.set_use_online_imu_extrinsics_in_3d(
