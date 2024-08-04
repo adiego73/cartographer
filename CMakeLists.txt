@@ -139,13 +139,14 @@ set(PROTO_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 set(PROTO_IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/")
 message(STATUS "Protobuf version found ${Protobuf_VERSION}")
 
-add_library(cartographer-proto OBJECT "${ALL_PROTOS}")
-target_link_libraries(cartographer-proto PUBLIC protobuf::libprotobuf)
-target_include_directories(cartographer-proto PUBLIC ${PROTO_BINARY_DIR})
+set(PROJECT_PROTO_TARGET ${PROJECT_NAME}_proto)
+add_library(${PROJECT_PROTO_TARGET} OBJECT "${ALL_PROTOS}")
+target_include_directories(${PROJECT_PROTO_TARGET} PUBLIC $<BUILD_INTERFACE:${PROTO_BINARY_DIR}>)
 protobuf_generate(
-  TARGET cartographer-proto
+  TARGET ${PROJECT_PROTO_TARGET}
   IMPORT_DIRS ${PROTO_IMPORT_DIRS}
   PROTOC_OUT_DIR ${PROTO_BINARY_DIR}
+  OUT_VAR ALL_PROTO_HDRS
 )
 
 if(${BUILD_GRPC})
@@ -177,6 +178,7 @@ if(${BUILD_GRPC})
   list(APPEND ALL_LIBRARY_SRCS ${ALL_GRPC_SERVICE_SRCS})
 endif()
 
+list(FILTER ALL_PROTO_HDRS EXCLUDE REGEX "\.pb\.cc$")
 set(INSTALL_GENERATED_HDRS ${ALL_PROTO_HDRS} ${ALL_GRPC_SERVICE_HDRS})
 
 add_library(${PROJECT_NAME} STATIC ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
@@ -185,25 +187,25 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/cartographer/common/config.h.cmake
   ${PROJECT_BINARY_DIR}/cartographer/common/config.h)
 
-# google_binary(cartographer_autogenerate_ground_truth
-#   SRCS
-#   cartographer/ground_truth/autogenerate_ground_truth_main.cc
-# )
+google_binary(cartographer_autogenerate_ground_truth
+  SRCS
+  cartographer/ground_truth/autogenerate_ground_truth_main.cc
+)
 
-# google_binary(cartographer_compute_relations_metrics
-#   SRCS
-#   cartographer/ground_truth/compute_relations_metrics_main.cc
-# )
+google_binary(cartographer_compute_relations_metrics
+  SRCS
+  cartographer/ground_truth/compute_relations_metrics_main.cc
+)
 
-# google_binary(cartographer_pbstream
-#   SRCS
-#   cartographer/io/pbstream_main.cc
-# )
+google_binary(cartographer_pbstream
+  SRCS
+  cartographer/io/pbstream_main.cc
+)
 
-# google_binary(cartographer_print_configuration
-#   SRCS
-#   cartographer/common/print_configuration_main.cc
-# )
+google_binary(cartographer_print_configuration
+  SRCS
+  cartographer/common/print_configuration_main.cc
+)
 
 if(${BUILD_GRPC})
   google_binary(cartographer_grpc_server
@@ -262,12 +264,12 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CAIRO_LIBRARIES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
   ${PROTOBUF_INCLUDE_DIR})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:cartographer-proto>)
+target_link_libraries(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_PROTO_TARGET}>)
+target_link_libraries(${PROJECT_NAME} PUBLIC protobuf::libprotobuf)
 
 # TODO(hrapp): This should not explicitly list pthread and use
 # PROTOBUF_LIBRARIES, but that failed on first try.
 target_link_libraries(${PROJECT_NAME} PUBLIC
-  protobuf::libprotobuf
   absl::algorithm
   absl::base
   absl::debugging
@@ -307,8 +309,6 @@ set(TEST_LIB
   cartographer_test_library
 )
 add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
-target_include_directories(${TEST_LIB} SYSTEM PRIVATE
-  "${GMOCK_INCLUDE_DIRS}")
 
 # Needed for dynamically linked GTest on Windows.
 if(WIN32)
@@ -316,9 +316,6 @@ if(WIN32)
 endif()
 
 target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
-target_link_libraries(${TEST_LIB} PUBLIC
-protobuf::libprotobuf
- $<BUILD_INTERFACE:cartographer-proto>)
 
 set_target_properties(${TEST_LIB} PROPERTIES
   COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})

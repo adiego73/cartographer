@@ -36,8 +36,11 @@ function(google_test NAME ARG_SRC)
   add_executable(${NAME} ${ARG_SRC})
   _common_compile_stuff()
 
-  target_link_libraries("${NAME}" PUBLIC ${GMOCK_LIBRARIES})
-  target_link_libraries("${NAME}" PUBLIC GTest::GTest GTest::Main GTest::gmock)
+  target_link_libraries("${NAME}" PUBLIC
+    GTest::GTest
+    GTest::Main
+    GTest::gmock
+    )
 
   add_test(${NAME} ${NAME})
 endfunction()
